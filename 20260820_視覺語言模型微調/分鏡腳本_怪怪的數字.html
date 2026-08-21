@@ -1,0 +1,398 @@
+<title>怪怪的數字</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600;700&display=swap">
+
+<style>
+:root{
+  --ground:#E8EBF0;
+  --surface:#F7F8FB;
+  --surface-2:#DFE4EC;
+  --ink:#0F1722;
+  --ink-2:#54607A;
+  --ink-3:#7A869E;
+  --rule:#C3CBD9;
+  --rule-soft:#D6DCE7;
+  --accent:#A9520A;
+  --accent-2:#7C3D08;
+  --accent-wash:#F2E4D2;
+  --shadow:0 1px 0 rgba(15,23,34,.05);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#0B1017;
+    --surface:#131B26;
+    --surface-2:#1B2532;
+    --ink:#E5EAF3;
+    --ink-2:#96A4BD;
+    --ink-3:#6E7C95;
+    --rule:#26313F;
+    --rule-soft:#1D2733;
+    --accent:#F0A244;
+    --accent-2:#F7BE79;
+    --accent-wash:#33240F;
+    --shadow:0 1px 0 rgba(0,0,0,.3);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0B1017;
+  --surface:#131B26;
+  --surface-2:#1B2532;
+  --ink:#E5EAF3;
+  --ink-2:#96A4BD;
+  --ink-3:#6E7C95;
+  --rule:#26313F;
+  --rule-soft:#1D2733;
+  --accent:#F0A244;
+  --accent-2:#F7BE79;
+  --accent-wash:#33240F;
+  --shadow:0 1px 0 rgba(0,0,0,.3);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--ground);
+  color:var(--ink);
+  font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;
+  font-size:16px;
+  line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px;margin:0 auto;padding:clamp(28px,5vw,72px) clamp(18px,4vw,40px) 96px}
+
+/* ---------- masthead ---------- */
+.mast{border-bottom:2px solid var(--ink);padding-bottom:22px}
+.eyebrow{
+  font-family:"JetBrains Mono",monospace;
+  font-size:11px;letter-spacing:.22em;color:var(--ink-3);
+  margin:0 0 14px;text-transform:uppercase;
+}
+h1{
+  font-family:"Noto Serif TC",serif;font-weight:700;
+  font-size:clamp(38px,7vw,64px);line-height:1.12;letter-spacing:-.01em;
+  margin:0;text-wrap:balance;
+}
+.sub{
+  margin:14px 0 0;max-width:60ch;color:var(--ink-2);font-size:17px;
+}
+.sub b{color:var(--ink);font-weight:500}
+
+.specs{
+  display:flex;flex-wrap:wrap;gap:0;margin:26px 0 0;
+  border:1px solid var(--rule);background:var(--surface);
+}
+.spec{
+  flex:1 1 140px;padding:12px 16px;border-right:1px solid var(--rule-soft);
+}
+.spec:last-child{border-right:0}
+.spec dt{
+  font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.16em;
+  color:var(--ink-3);margin:0 0 3px;
+}
+.spec dd{
+  margin:0;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:19px;
+  font-variant-numeric:tabular-nums;color:var(--ink);
+}
+
+/* ---------- act ---------- */
+.act{margin:52px 0 0}
+.act-head{
+  display:flex;align-items:baseline;gap:14px;
+  padding-bottom:9px;border-bottom:1px solid var(--ink);
+}
+.act-no{
+  font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.18em;
+  color:var(--accent);font-weight:700;
+}
+.act-title{
+  font-family:"Noto Serif TC",serif;font-weight:600;font-size:22px;margin:0;
+}
+.act-time{
+  margin-left:auto;font-family:"JetBrains Mono",monospace;font-size:12px;
+  color:var(--ink-3);font-variant-numeric:tabular-nums;
+}
+
+/* ---------- shot ---------- */
+.shot{
+  display:grid;grid-template-columns:96px 1fr;gap:0 22px;
+  padding:22px 0;border-bottom:1px solid var(--rule-soft);
+}
+.slug{border-right:1px solid var(--rule-soft);padding-right:16px}
+.shot-no{
+  font-family:"JetBrains Mono",monospace;font-weight:700;font-size:26px;
+  line-height:1;color:var(--accent);font-variant-numeric:tabular-nums;
+}
+.shot-tc{
+  font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--ink-3);
+  margin-top:7px;font-variant-numeric:tabular-nums;letter-spacing:.02em;
+}
+.tracks{display:flex;flex-direction:column;gap:13px;min-width:0}
+.track{display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:start}
+.tlabel{
+  font-size:11px;letter-spacing:.14em;color:var(--ink-3);
+  font-weight:500;padding-top:5px;
+}
+.tbody{margin:0;min-width:0}
+.tbody.vo{font-size:16.5px}
+.tbody.vis{color:var(--ink-2);font-size:15px}
+
+.card{
+  display:inline-block;background:var(--surface-2);border-left:3px solid var(--accent);
+  padding:7px 13px;font-family:"JetBrains Mono",monospace;font-size:14px;
+  font-weight:700;color:var(--ink);letter-spacing:.01em;
+}
+.card.zh{font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;letter-spacing:.02em}
+
+.fig{
+  font-family:"JetBrains Mono",monospace;font-weight:700;color:var(--accent);
+  font-variant-numeric:tabular-nums;
+}
+code{
+  font-family:"JetBrains Mono",monospace;font-size:.9em;
+  background:var(--surface);border:1px solid var(--rule-soft);
+  padding:1px 5px;color:var(--ink);
+}
+.term{
+  background:var(--surface);border:1px solid var(--rule);
+  font-family:"JetBrains Mono",monospace;font-size:13px;line-height:1.6;
+  padding:13px 15px;margin:4px 0 0;overflow-x:auto;color:var(--ink-2);
+  white-space:pre;
+}
+.term b{color:var(--accent);font-weight:700}
+
+/* ---------- closing ---------- */
+.close{
+  margin:56px 0 0;padding:34px 32px;background:var(--surface);
+  border:1px solid var(--rule);border-top:3px solid var(--accent);
+}
+.close p{margin:0;font-family:"Noto Serif TC",serif;font-size:clamp(21px,3.4vw,29px);
+  line-height:1.55;font-weight:600;text-wrap:balance}
+.close .attrib{
+  margin:16px 0 0;font-family:"Noto Sans TC",sans-serif;font-size:13px;
+  font-weight:400;color:var(--ink-3);letter-spacing:.04em;
+}
+.note{
+  margin:38px 0 0;padding-top:20px;border-top:1px solid var(--rule-soft);
+  font-size:13.5px;color:var(--ink-3);line-height:1.8;max-width:70ch;
+}
+.note b{color:var(--ink-2);font-weight:500}
+
+@media (max-width:620px){
+  .shot{grid-template-columns:1fr;gap:12px}
+  .slug{border-right:0;border-bottom:1px solid var(--rule-soft);
+    padding:0 0 10px;display:flex;align-items:baseline;gap:12px}
+  .shot-tc{margin-top:0}
+  .track{grid-template-columns:1fr;gap:3px}
+  .tlabel{padding-top:0}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+
+<header class="mast">
+  <p class="eyebrow">分鏡腳本 · 教學短片</p>
+  <h1>怪怪的數字</h1>
+  <p class="sub">四個真實的 bug，藏在一份公開發表、看起來很專業的機器學習專案裡。
+  沒有一個是靠讀 code 讀出來的——<b>全部都從一個看起來不對勁的數字開始。</b></p>
+
+  <dl class="specs">
+    <div class="spec"><dt>片長</dt><dd>2:55</dd></div>
+    <div class="spec"><dt>鏡次</dt><dd>12</dd></div>
+    <div class="spec"><dt>旁白字數</dt><dd>約 490</dd></div>
+    <div class="spec"><dt>語速</dt><dd>170 字/分</dd></div>
+  </dl>
+</header>
+
+<!-- ACT 0 -->
+<section class="act">
+  <div class="act-head">
+    <span class="act-no">開場</span>
+    <h2 class="act-title">一行輸出</h2>
+    <span class="act-time">0:00 – 0:16</span>
+  </div>
+
+  <div class="shot">
+    <div class="slug"><div class="shot-no">01</div><div class="shot-tc">0:00 – 0:08</div></div>
+    <div class="tracks">
+      <div class="track"><span class="tlabel">畫面</span><p class="tbody vis">全黑。畫面正中只有一行終端機輸出，游標在後面閃。停三秒不動，讓觀眾自己去讀那個數字。</p></div>
+      <div class="track"><span class="tlabel"></span>
+        <pre class="term">BLEU : {'bleu': 0.0421, ... 'length_ratio': <b>2.0512</b>}</pre></div>
+      <div class="track"><span class="tlabel">旁白</span><p class="tbody vo">這個數字，來自一份公開發表在 GitHub 和 Hugging Face 上的專案。它沒有紅字、沒有報錯，程式從頭到尾跑完了。</p></div>
+    </div>
+  </div>
+
+  <div class="shot">
+    <div class="slug"><div class="shot-no">02</div><div class="shot-tc">0:08 – 0:16</div></div>
+    <div class="tracks">
+      <div class="track"><span class="tlabel">畫面</span><p class="tbody vis">鏡頭推近，<span class="fig">2.0512</span> 撐滿畫面，其餘文字虛化。</p></div>
+      <div class="track"><span class="tlabel">旁白</span><p class="tbody vo">但它其實在說一件事：我們產生的每一句話，都比標準答案長了一倍。</p></div>
+      <div class="track"><span class="tlabel">字幕</span><span class="card">length_ratio = 2.05</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ACT 1 -->
+<section class="act">
+  <div class="act-head">
+    <span class="act-no">背景</span>
+    <h2 class="act-title">它做對的事</h2>
+    <span class="act-time">0:16 – 0:38</span>
+  </div>
+
+  <div class="shot">
+    <div class="slug"><div class="shot-no">03</div><div class="shot-tc">0:16 – 0:38</div></div>
+    <div class="tracks">
+      <div class="track"><span class="tlabel">畫面</span><p class="tbody vis">Colab 畫面快轉：unsloth 啟動橫幅、訓練 loss 曲線往下掉、天文影像一張張閃過。節奏明快，像在誇獎它。</p></div>
+      <div class="track"><span class="tlabel">旁白</span><p class="tbody vo">先說它做對的事。在一張免費的 T4 顯示卡上，微調一個 <span class="fig">110 億</span>參數的視覺語言模型。用 4-bit 量化把權重壓到 5 GiB，用 LoRA 讓只有 <span class="fig">0.63%</span> 的參數需要更新。這件事本身，幾年前還做不到。</p></div>
+      <div class="track"><span class="tlabel">字幕</span><span class="card">10,737,395,235 → 67,174,400 可訓練</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ACT 2 -->
+<section class="act">
+  <div class="act-head">
+    <span class="act-no">Bug #1</span>
+    <h2 class="act-title">Prompt 回音</h2>
+    <span class="act-time">0:38 – 1:12</span>
+  </div>
+
+  <div class="shot">
+    <div class="slug"><div class="shot-no">04</div><div class="shot-tc">0:38 – 0:54</div></div>
+    <div class="tracks">
+      <div class="track"><span class="tlabel">畫面</span><p class="tbody vis">切回開場那行數字。旁邊並排三筆「Predicted / Reference」的範例，看起來長度差不多——製造矛盾。</p></div>
+      <div class="track"><span class="tlabel">旁白</span><p class="tbody vo">回到那個 2.05。奇怪的是，隨手抽三筆出來看，長度明明差不多。那多出來的一倍，藏在哪裡？</p></div>
+    </div>
+  </div>
+
+  <div class="shot">
+    <div class="slug"><div class="shot-no">05</div><div class="shot-tc">0:54 – 1:12</div></div>
+    <div class="tracks">
+      <div class="track"><span class="tlabel">畫面</span><p class="tbody vis">把「完整的」Predicted 字串印出來。前半段整段 prompt 用琥珀色反白——原來題目被整個抄了一遍。</p></div>
+      <div class="track"><span class="tlabel">旁白</span><p class="tbody vo">把完整輸出印出來就看到了：模型把題目抄了一遍，才開始寫答案。因為 <code>model.generate</code> 回傳的是輸入加輸出的<strong>完整序列</strong>，直接整條 decode，prompt 當然跟著印出來。分母被污染，BLEU 被低估。</p></div>
+      <div class="track"><span class="tlabel">字幕</span><span class="card zh">Bug #1 · Prompt 回音</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ACT 3 -->
+<section class="act">
+  <div class="act-head">
+    <span class="act-no">Bug #2</span>
+    <h2 class="act-title">測試集根本沒被隔離</h2>
+    <span class="act-time">1:12 – 1:42</span>
+  </div>
+
+  <div class="shot">
+    <div class="slug"><div class="shot-no">06</div><div class="shot-tc">1:12 – 1:28</div></div>
+    <div class="tracks">
+      <div class="track"><span class="tlabel">畫面</span><p class="tbody vis">兩行程式碼上下並排，中間畫一條線連起來：上面用整份 <code>df</code> 訓練，下面又從整份 <code>df</code> 切測試集。</p></div>
+      <div class="track"><span class="tlabel">旁白</span><p class="tbody vo">第二個 bug 更嚴重，而且它不在評估裡，在更前面。訓練用的是整份資料。然後，測試集又從整份資料裡切出來。</p></div>
+    </div>
+  </div>
+
+  <div class="shot">
+    <div class="slug"><div class="shot-no">07</div><div class="shot-tc">1:28 – 1:42</div></div>
+    <div class="tracks">
+      <div class="track"><span class="tlabel">畫面</span><p class="tbody vis">兩個圓圈動畫向彼此靠近，最後完全重疊成一個。重疊瞬間跳出比例數字。</p></div>
+      <div class="track"><span class="tlabel">旁白</span><p class="tbody vo">兩個集合一比，重疊 <span class="fig">100%</span>。模型在考試之前，看過每一張考卷。</p></div>
+      <div class="track"><span class="tlabel">字幕</span><span class="card zh">Bug #2 · 資料洩漏 100%</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ACT 4 -->
+<section class="act">
+  <div class="act-head">
+    <span class="act-no">Bug #3</span>
+    <h2 class="act-title">裝飾品參數</h2>
+    <span class="act-time">1:42 – 2:04</span>
+  </div>
+
+  <div class="shot">
+    <div class="slug"><div class="shot-no">08</div><div class="shot-tc">1:42 – 2:04</div></div>
+    <div class="tracks">
+      <div class="track"><span class="tlabel">畫面</span><p class="tbody vis">程式碼特寫 <code>temperature=1.0</code>，游標在後面找 <code>do_sample</code>——找不到。接著切到 <code>print(model.generation_config)</code> 的輸出。</p></div>
+      <div class="track"><span class="tlabel">旁白</span><p class="tbody vo">第三個很小，但很典型。評估迴圈傳了 temperature，卻沒有傳 do_sample。而 temperature 只有在取樣時才有作用——沒傳 do_sample，這個參數就是<strong>裝飾品</strong>。那到底用了什麼設定？來自模型自己帶的設定檔。同一行程式碼，換一個模型，行為就變了。</p></div>
+      <div class="track"><span class="tlabel">字幕</span><span class="card zh">Bug #3 · 明確永遠勝過依賴預設值</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ACT 5 -->
+<section class="act">
+  <div class="act-head">
+    <span class="act-no">Bug #4</span>
+    <h2 class="act-title">缺口不是 28 MiB</h2>
+    <span class="act-time">2:04 – 2:42</span>
+  </div>
+
+  <div class="shot">
+    <div class="slug"><div class="shot-no">09</div><div class="shot-tc">2:04 – 2:16</div></div>
+    <div class="tracks">
+      <div class="track"><span class="tlabel">畫面</span><p class="tbody vis">氣氛一轉。滿版的紅色 OOM 錯誤訊息灌進畫面，音效重一點。</p></div>
+      <div class="track"><span class="tlabel">旁白</span><p class="tbody vo">最後一個，是這份 code 裡唯一會直接爆炸的。它把 LoRA 合併成完整模型，然後用 16-bit 載回 T4。</p></div>
+      <div class="track"><span class="tlabel"></span>
+        <pre class="term">OutOfMemoryError: CUDA out of memory.
+Tried to allocate <b>28.00 MiB</b>.
+GPU 0 has a total capacity of 14.56 GiB
+  of which 9.81 MiB is free.
+<b>14.40 GiB</b> is allocated by PyTorch, and
+<b>21.48 MiB</b> is reserved but unallocated.
+If reserved but unallocated memory is large
+try setting PYTORCH_CUDA_ALLOC_CONF=...</pre></div>
+    </div>
+  </div>
+
+  <div class="shot">
+    <div class="slug"><div class="shot-no">10</div><div class="shot-tc">2:16 – 2:30</div></div>
+    <div class="tracks">
+      <div class="track"><span class="tlabel">畫面</span><p class="tbody vis">滑鼠游標移向最後那行建議，正要反白複製——畫面<strong>凍結</strong>，游標停住。然後鏡頭往上移，highlight <span class="fig">21.48 MiB</span>。</p></div>
+      <div class="track"><span class="tlabel">旁白</span><p class="tbody vo">很多人看到這裡，會直接去複製最後那行建議。但那行有前提：「<strong>如果</strong>未使用的保留記憶體很大」。往上看——它是 21 MB。一點都不大。沒有東西可以回收，那行建議在這裡完全無效。</p></div>
+      <div class="track"><span class="tlabel">字幕</span><span class="card zh">錯誤訊息附的建議，也是一個待驗證的假設</span></div>
+    </div>
+  </div>
+
+  <div class="shot">
+    <div class="slug"><div class="shot-no">11</div><div class="shot-tc">2:30 – 2:42</div></div>
+    <div class="tracks">
+      <div class="track"><span class="tlabel">畫面</span><p class="tbody vis">長條圖：一條 20.00 GiB 的模型，一條 14.56 GiB 的顯卡，差距用琥珀色標出來。<span class="fig">28 MiB</span> 那一小格小到幾乎看不見。</p></div>
+      <div class="track"><span class="tlabel">旁白</span><p class="tbody vo">真正的缺口，不是 28 MB，是 <span class="fig">5.44 GiB</span>。模型是這張卡的 <span class="fig">1.37</span> 倍——從頭就放不進去。OOM 訊息永遠只報最後那一次要不到的配置，那個數字跟你差多少，完全無關。</p></div>
+      <div class="track"><span class="tlabel">字幕</span><span class="card">缺口 5.44 GiB，不是 28 MiB</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ACT 6 -->
+<section class="act">
+  <div class="act-head">
+    <span class="act-no">收尾</span>
+    <h2 class="act-title">停下來的那個人</h2>
+    <span class="act-time">2:42 – 2:55</span>
+  </div>
+
+  <div class="shot">
+    <div class="slug"><div class="shot-no">12</div><div class="shot-tc">2:42 – 2:55</div></div>
+    <div class="tracks">
+      <div class="track"><span class="tlabel">畫面</span><p class="tbody vis">四個 bug 的標題依序排列出現，然後一起淡出，畫面只剩下最開始那個 <span class="fig">2.05</span>，最後轉黑。</p></div>
+      <div class="track"><span class="tlabel">旁白</span><p class="tbody vo">四個 bug，沒有一個是靠讀 code 讀出來的。全部都是因為有一個數字看起來怪怪的，然後有人停下來。</p></div>
+      <div class="track"><span class="tlabel">字幕</span><span class="card zh">當一個數字看起來怪怪的時候，你會停下來。</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="close">
+  <p>你們以後最有價值的能力，不是會呼叫 <code>from_pretrained</code>——那查文件就會了。</p>
+  <p class="attrib">而是：當一個數字看起來怪怪的時候，你會停下來。</p>
+</div>
+
+<p class="note">
+<b>拍攝備註　</b>鏡次 01 的靜止三秒是刻意的，不要剪短——整支片的懸念都靠觀眾自己先讀到那個數字。
+鏡次 10 的「游標停住」是全片轉折，建議配一個明顯的靜音。
+片中所有數字皆取自實際執行輸出：<span class="fig">20.00 GiB</span>、<span class="fig">14.56 GiB</span>、<span class="fig">5.44 GiB</span>、<span class="fig">1.37</span> 倍為 GiB 制；
+教材 M1 表格採十進位 GB 寫作 21.5 GB，是同一個量，上字幕時兩種單位不要混用。
+</p>
+
+</div>
